@@ -44,7 +44,6 @@ class Game < String
       if @user_guess.match?(/^[1-6][1-6][1-6][1-6]$/)
         check_correct_position(@user_guess.split(""))
         check_wrong_position
-        @turn += 1
         check_endgame
       else
         error
@@ -71,9 +70,6 @@ class Game < String
       end
     end
     p @clues.join
-    @clues.clear
-    @remaining_numbers.clear
-    @remaining_combination.clear
   end
 
   def check_endgame
@@ -83,6 +79,10 @@ class Game < String
     elsif @clues.join == "BBBB"
       puts "Congratulations, you won !"
     else
+      @clues.clear
+      @remaining_numbers.clear
+      @remaining_combination.clear
+      @turn +=1 
       play
     end
   end

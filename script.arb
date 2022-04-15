@@ -14,8 +14,12 @@ class Game < String
     rules
     @colors = ["1", "2", "3", "4", "5", "6"]
     @colors_shuffled = @colors.shuffle
+    @remaining_combination = []
+    @remaining_numbers = []
+    @clues = []
+    @turn = 1
     p @colors_shuffled
-    round
+    play
   end
 
   def banner
@@ -31,34 +35,60 @@ class Game < String
     puts " "
   end
 
+  def play
+    round
+  end
+
   def round
-    puts "Please make your guess"
+    puts "\nTurn ##{@turn} please make your guess"
     @user_guess = gets.chomp
       if @user_guess.match?(/^[1-6][1-6][1-6][1-6]$/)
-        check_guess(@user_guess.split(""))
-        p @combined_combinations
+        check_correct_position(@user_guess.split(""))
+        check_wrong_position
+        @turn += 1
+        check_endgame
       else
         error
       end
   end
 
-  def check_guess(array)
-    @combined_combinations = @colors_shuffled[0..3].zip(array)
+  def check_correct_position(user_guess)
+    @combined_combinations = @colors_shuffled[0..3].zip(user_guess)
       @combined_combinations.each_with_index do |array, index| 
       if array[0]==array[1]
-        p true
-        @combined_combinations.slice!(index)
+        @clues.push("B")
       else
-        p false
+        @remaining_numbers = @remaining_numbers.push(user_guess[index])
+        @remaining_combination = @remaining_combination.push(@colors_shuffled[index])
       end
     end
-    
+  end
+
+  def check_wrong_position
+    @remaining_numbers.each do |number|
+      if @remaining_combination.include?(number)
+        @clues.push("W")
+      end
+    end
+    puts "\n#{@clues.join}"
+  end
+
+  def check_endgame
+    if @turn > 12
+      puts "You lost."
+    elsif @clues.join == "BBBB"
+      puts "Congratulations, you won !"
+    else
+      @clues = []
+      play
+    end
   end
 
   def error
     puts "Erroneous input! Try again..."
     round
   end
+
 
 end
 

@@ -18,7 +18,6 @@ class Game < String
     @remaining_numbers = []
     @clues = []
     @turn = 1
-    p @colors_shuffled
     play
   end
 
@@ -68,18 +67,22 @@ class Game < String
     @remaining_numbers.each do |number|
       if @remaining_combination.include?(number)
         @clues.push("W")
+        @remaining_combination.delete(number)
       end
     end
-    puts "\n#{@clues.join}"
+    p @clues.join
+    @clues.clear
+    @remaining_numbers.clear
+    @remaining_combination.clear
   end
 
   def check_endgame
     if @turn > 12
       puts "You lost."
+      puts @colors_shuffled
     elsif @clues.join == "BBBB"
       puts "Congratulations, you won !"
     else
-      @clues = []
       play
     end
   end

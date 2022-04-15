@@ -1,0 +1,65 @@
+class String
+  def bg_red;         "\e[41m#{self}\e[0m" end
+  def bg_green;       "\e[42m#{self}\e[0m" end
+  def bg_brown;       "\e[43m#{self}\e[0m" end
+  def bg_blue;        "\e[44m#{self}\e[0m" end
+  def bg_magenta;     "\e[45m#{self}\e[0m" end
+  def bg_cyan;        "\e[46m#{self}\e[0m" end
+end
+
+class Game < String
+
+  def initialize
+    banner
+    rules
+    @colors = ["1", "2", "3", "4", "5", "6"]
+    @colors_shuffled = @colors.shuffle
+    p @colors_shuffled
+    round
+  end
+
+  def banner
+    puts "========================="
+    puts "=======MASTERMIND========"
+    puts "=========================\n\n"
+  end
+
+  def rules
+    puts "The objective is to find the correct color and order combination"
+    puts "There are six colors : Red(1), Green(2), Blue(3), Yellow(4), Pink(5) \n and Orange(6)"
+    puts "The combination is made up of four colors, each color can be present more \n than once"
+    puts " "
+  end
+
+  def round
+    puts "Please make your guess"
+    @user_guess = gets.chomp
+      if @user_guess.match?(/^[1-6][1-6][1-6][1-6]$/)
+        check_guess(@user_guess.split(""))
+        p @combined_combinations
+      else
+        error
+      end
+  end
+
+  def check_guess(array)
+    @combined_combinations = @colors_shuffled[0..3].zip(array)
+      @combined_combinations.each_with_index do |array, index| 
+      if array[0]==array[1]
+        p true
+        @combined_combinations.slice!(index)
+      else
+        p false
+      end
+    end
+    
+  end
+
+  def error
+    puts "Erroneous input! Try again..."
+    round
+  end
+
+end
+
+Game.new

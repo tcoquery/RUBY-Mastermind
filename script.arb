@@ -17,7 +17,8 @@ class Game < String
     @remaining_combination = []
     @remaining_numbers = []
     @clues = []
-    @turn = 1
+    @game_over = false
+    @turn = 0
     play
   end
 
@@ -35,16 +36,23 @@ class Game < String
   end
 
   def play
+    p @colors_shuffled
+    check_endgame
+    if @game_over
+      return
+    else
     round
+    end
   end
 
   def round
+    
     puts "\nTurn ##{@turn} please make your guess"
     @user_guess = gets.chomp
       if @user_guess.match?(/^[1-6][1-6][1-6][1-6]$/)
         check_correct_position(@user_guess.split(""))
         check_wrong_position
-        check_endgame
+        play
       else
         error
       end
@@ -73,17 +81,18 @@ class Game < String
   end
 
   def check_endgame
-    if @turn > 12
-      puts "You lost."
-      puts @colors_shuffled
-    elsif @clues.join == "BBBB"
+    if @clues.join == "BBBB"
+      @game_over = true
       puts "Congratulations, you won !"
+    elsif @turn > 11
+      @game_over = true
+      puts "You lost. The correct combination was #{@colors_shuffled[0..3].join}."
     else
       @clues.clear
       @remaining_numbers.clear
       @remaining_combination.clear
       @turn +=1 
-      play
+      
     end
   end
 

@@ -1,4 +1,6 @@
 class String
+  def bg_black;       "\e[40m#{self}\e[0m" end
+  def bg_gray;        "\e[47m#{self}\e[0m" end
   def bg_red;         "\e[41m#{self}\e[0m" end
   def bg_green;       "\e[42m#{self}\e[0m" end
   def bg_brown;       "\e[43m#{self}\e[0m" end
@@ -28,10 +30,12 @@ class Game < String
   end
 
   def rules
-    puts "The objective is to find the correct color and order combination"
-    puts "There are six colors : Red(1), Green(2), Blue(3), Yellow(4), Pink(5) \nand Orange(6)"
-    puts "The combination is made up of four colors, each color can be present more \nthan once"
-    puts "Each round, you get a clue, White (W) if you found a correct color but in \nthe wrong position. Black (B) if you found a color in the right position "
+    puts "The objective is to find the correct color and order combination."
+    puts "\nThere are six colors : #{"  1  ".bg_red}#{"  2  ".bg_green}#{"  3  ".bg_blue}#{"  4  ".bg_brown}#{"  5  ".bg_magenta}#{"  6  ".bg_cyan}" 
+    puts "\nThe combination is made up of four colors, each color can be present more \nthan once."
+    puts "\nEach round, you get clues:" 
+    puts "\u25CF If you found a color but in the wrong position." 
+    puts "\u25CB If you found a color in the right position."
   end
 
   def play
@@ -44,7 +48,7 @@ class Game < String
   end
 
   def round
-    puts "\nTurn ##{@turn} please make your guess"
+    puts "\nTurn ##{@turn} : please enter a four-digit number to make your guess"
     @user_guess = gets.chomp
       if @user_guess.match?(/^[1-6][1-6][1-6][1-6]$/)
         check_correct_position(@user_guess.split(""))
@@ -59,7 +63,7 @@ class Game < String
     @combined_combinations = @colors[0..3].zip(user_guess)
       @combined_combinations.each_with_index do |array, index| 
       if array[0]==array[1]
-        @clues.push("B")
+        @clues.push("\u25CB")
       else
         @remaining_numbers = @remaining_numbers.push(user_guess[index])
         @remaining_combination = @remaining_combination.push(@colors[index])
@@ -70,15 +74,15 @@ class Game < String
   def check_wrong_position
     @remaining_numbers.each do |number|
       if @remaining_combination.include?(number)
-        @clues.push("W")
+        @clues.push("\u25CF")
         @remaining_combination.delete(number)
       end
     end
-    p @clues.join
+    puts @clues.join
   end
 
   def check_endgame
-    if @clues.join == "BBBB"
+    if @clues.join == "\u25CB\u25CB\u25CB\u25CB"
       @game_over = true
       puts "Congratulations, you won !"
     elsif @turn > 11

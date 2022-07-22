@@ -12,8 +12,7 @@ class Game < String
   def initialize
     banner
     rules
-    @colors = ["1", "2", "3", "4", "5", "6"]
-    @colors_shuffled = @colors.shuffle
+    @colors = ["1", "2", "3", "4", "5", "6"].shuffle
     @remaining_combination = []
     @remaining_numbers = []
     @clues = []
@@ -30,13 +29,12 @@ class Game < String
 
   def rules
     puts "The objective is to find the correct color and order combination"
-    puts "There are six colors : Red(1), Green(2), Blue(3), Yellow(4), Pink(5) \n and Orange(6)"
-    puts "The combination is made up of four colors, each color can be present more \n than once"
-    puts " "
+    puts "There are six colors : Red(1), Green(2), Blue(3), Yellow(4), Pink(5) \nand Orange(6)"
+    puts "The combination is made up of four colors, each color can be present more \nthan once"
+    puts "Each round, you get a clue, White (W) if you found a correct color but in \nthe wrong position. Black (B) if you found a color in the right position "
   end
 
   def play
-    p @colors_shuffled
     check_endgame
     if @game_over
       return
@@ -46,7 +44,6 @@ class Game < String
   end
 
   def round
-    
     puts "\nTurn ##{@turn} please make your guess"
     @user_guess = gets.chomp
       if @user_guess.match?(/^[1-6][1-6][1-6][1-6]$/)
@@ -59,13 +56,13 @@ class Game < String
   end
 
   def check_correct_position(user_guess)
-    @combined_combinations = @colors_shuffled[0..3].zip(user_guess)
+    @combined_combinations = @colors[0..3].zip(user_guess)
       @combined_combinations.each_with_index do |array, index| 
       if array[0]==array[1]
         @clues.push("B")
       else
         @remaining_numbers = @remaining_numbers.push(user_guess[index])
-        @remaining_combination = @remaining_combination.push(@colors_shuffled[index])
+        @remaining_combination = @remaining_combination.push(@colors[index])
       end
     end
   end
@@ -86,7 +83,7 @@ class Game < String
       puts "Congratulations, you won !"
     elsif @turn > 11
       @game_over = true
-      puts "You lost. The correct combination was #{@colors_shuffled[0..3].join}."
+      puts "You lost. The correct combination was #{@colors[0..3].join}."
     else
       @clues.clear
       @remaining_numbers.clear

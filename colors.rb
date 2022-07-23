@@ -1,10 +1,18 @@
-class String
-  def bg_black;       "\e[40m#{self}\e[0m" end
-  def bg_gray;        "\e[47m#{self}\e[0m" end
-  def bg_red;         "\e[41m#{self}\e[0m" end
-  def bg_green;       "\e[42m#{self}\e[0m" end
-  def bg_brown;       "\e[43m#{self}\e[0m" end
-  def bg_blue;        "\e[44m#{self}\e[0m" end
-  def bg_magenta;     "\e[45m#{self}\e[0m" end
-  def bg_cyan;        "\e[46m#{self}\e[0m" end
+module Colors
+  def code_colors(number)
+    {
+      1 => "\e[41m  1  \e[0m ",
+      2 => "\e[42m  2  \e[0m ",
+      3 => "\e[43m  3  \e[0m ",
+      4 => "\e[44m  4  \e[0m ",
+      5 => "\e[45m  5  \e[0m ",
+      6 => "\e[46m  6  \e[0m ",
+    }[number]
+  end
+
+  def show_code(array)
+    array.each do |num|
+      print code_colors num
+    end
+  end
 end

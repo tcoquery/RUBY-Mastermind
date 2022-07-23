@@ -1,7 +1,10 @@
 require "./colors"
 require "./humanSolver"
+require "./computerSolver"
 
-class Game < String
+class Game 
+
+  include Colors
 
   def initialize
     banner
@@ -17,8 +20,9 @@ class Game < String
 
   def rules
     puts "The objective is to find the correct color and order combination in 12 rounds or less."
-    puts "\nThere are six colors : #{"  1  ".bg_red}#{"  2  ".bg_green}#{"  3  ".bg_blue}#{"  4  ".bg_brown}#{"  5  ".bg_magenta}#{"  6  ".bg_cyan}" 
-    puts "\nThe combination is made up of four colors, each color can be present more \nthan once."
+    puts "\nThere are six colors :" 
+    show_code([1,2,3,4,5,6])
+    puts "\n\nThe combination is made up of four colors, each color can be present more \nthan once."
     puts "\nEach round, you get clues:" 
     puts "\u25CF If you found a color but in the wrong position." 
     puts "\u25CB If you found a color in the right position."

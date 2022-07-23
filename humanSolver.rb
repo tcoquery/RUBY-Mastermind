@@ -1,19 +1,6 @@
-class String
-  def bg_black;       "\e[40m#{self}\e[0m" end
-  def bg_gray;        "\e[47m#{self}\e[0m" end
-  def bg_red;         "\e[41m#{self}\e[0m" end
-  def bg_green;       "\e[42m#{self}\e[0m" end
-  def bg_brown;       "\e[43m#{self}\e[0m" end
-  def bg_blue;        "\e[44m#{self}\e[0m" end
-  def bg_magenta;     "\e[45m#{self}\e[0m" end
-  def bg_cyan;        "\e[46m#{self}\e[0m" end
-end
-
-class Game < String
+class Human
 
   def initialize
-    banner
-    rules
     @colors = ["1", "2", "3", "4", "5", "6"].shuffle
     @remaining_combination = []
     @remaining_numbers = []
@@ -22,21 +9,7 @@ class Game < String
     @turn = 0
     play
   end
-
-  def banner
-    puts "========================="
-    puts "=======MASTERMIND========"
-    puts "=========================\n\n"
-  end
-
-  def rules
-    puts "The objective is to find the correct color and order combination."
-    puts "\nThere are six colors : #{"  1  ".bg_red}#{"  2  ".bg_green}#{"  3  ".bg_blue}#{"  4  ".bg_brown}#{"  5  ".bg_magenta}#{"  6  ".bg_cyan}" 
-    puts "\nThe combination is made up of four colors, each color can be present more \nthan once."
-    puts "\nEach round, you get clues:" 
-    puts "\u25CF If you found a color but in the wrong position." 
-    puts "\u25CB If you found a color in the right position."
-  end
+  
 
   def play
     check_endgame
@@ -101,8 +74,4 @@ class Game < String
     puts "Erroneous input! Try again..."
     round
   end
-
-
 end
-
-Game.new

@@ -73,7 +73,6 @@ class Human
       @remaining_numbers.clear
       @remaining_code.clear
       @turn +=1 
-      
     end
   end
 

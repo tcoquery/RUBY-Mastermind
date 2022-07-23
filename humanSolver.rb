@@ -2,7 +2,7 @@ class Human
 
   def initialize
     @colors = ["1", "2", "3", "4", "5", "6"].shuffle
-    @remaining_combination = []
+    @remaining_code = []
     @remaining_numbers = []
     @clues = []
     @game_over = false
@@ -32,6 +32,13 @@ class Human
       end
   end
 
+  # This method combines the code and the user guess in @combined_combinations.
+  # If the user guessed the right position then @combined_combinations will have
+  # something like [[2, 2]].
+  # For the remaining numbers, they are pushed into different arrays, @remaining_numbers
+  # and @remaining_code. If a number in @remaining_numbers is included in @remaining_code
+  # then that means, the user guessed a correct number but in the wrong position. 
+
   def check_correct_position(user_guess)
     @combined_combinations = @colors[0..3].zip(user_guess)
       @combined_combinations.each_with_index do |array, index| 
@@ -39,16 +46,16 @@ class Human
         @clues.push("\u25CB")
       else
         @remaining_numbers = @remaining_numbers.push(user_guess[index])
-        @remaining_combination = @remaining_combination.push(@colors[index])
+        @remaining_code = @remaining_code.push(@colors[index])
       end
     end
   end
 
   def check_wrong_position
     @remaining_numbers.each do |number|
-      if @remaining_combination.include?(number)
+      if @remaining_code.include?(number)
         @clues.push("\u25CF")
-        @remaining_combination.delete(number)
+        @remaining_code.delete(number)
       end
     end
     puts @clues.join
@@ -64,7 +71,7 @@ class Human
     else
       @clues.clear
       @remaining_numbers.clear
-      @remaining_combination.clear
+      @remaining_code.clear
       @turn +=1 
       
     end

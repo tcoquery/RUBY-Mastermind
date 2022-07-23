@@ -16,7 +16,7 @@ class Game < String
   end
 
   def rules
-    puts "The objective is to find the correct color and order combination."
+    puts "The objective is to find the correct color and order combination in 12 rounds or less."
     puts "\nThere are six colors : #{"  1  ".bg_red}#{"  2  ".bg_green}#{"  3  ".bg_blue}#{"  4  ".bg_brown}#{"  5  ".bg_magenta}#{"  6  ".bg_cyan}" 
     puts "\nThe combination is made up of four colors, each color can be present more \nthan once."
     puts "\nEach round, you get clues:" 

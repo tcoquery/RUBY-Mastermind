@@ -9,7 +9,6 @@ class Human
     @turn = 0
     play
   end
-  
 
   def play
     check_endgame
@@ -53,7 +52,8 @@ class Human
 
   def check_wrong_position
     @remaining_numbers.each do |number|
-      if @remaining_code.include?(number)
+      count = @remaining_code.count(number)
+      count.times do
         @clues.push("\u25CF")
         @remaining_code.delete(number)
       end

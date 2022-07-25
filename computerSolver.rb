@@ -12,7 +12,7 @@ class Computer
     @computer_guess = [1, 1, 1, 1]
     @guesses = []
     @past_guesses = 0
-    @turn = 0
+    @turn = 1
     play
   end
 
@@ -33,14 +33,16 @@ class Computer
 
   def check_correct_position(guess)
     @clues.clear
-
+    @remaining_numbers.clear
+    @remaining_code.clear
     combined_combinations = @code.zip(guess)
-      combined_combinations.each_with_index do |array, index| 
+    
+    combined_combinations.each_with_index do |array, index| 
       if array[0]==array[1]
         @clues.push("\u25CB")
       else
-        @remaining_numbers = @remaining_numbers.push(guess[index])
-        @remaining_code = @remaining_code.push(@code[index])
+        @remaining_numbers.push(guess[index])
+        @remaining_code.push(@code[index])
       end
     end
     check_wrong_position
@@ -49,7 +51,8 @@ class Computer
 
   def check_wrong_position
     @remaining_numbers.each do |number|
-      if @remaining_code.include?(number)
+      count = @remaining_code.count(number)
+      count.times do
         @clues.push("\u25CF")
         @remaining_code.delete(number)
       end
@@ -77,11 +80,6 @@ class Computer
     elsif @clues.count == 4 # All 4 numbers have been guessed but not necessarily in the right position
       @guesses.push(guess)
       check_past_guesses(guess)
-      if @past_guesses > 0
-        check_correct_position(@computer_guess.shuffle)
-      else 
-        check_correct_position(guess)
-      end
     else
       check_clues
     end
@@ -89,11 +87,13 @@ class Computer
 
   def check_clues
     clue_count = @clues.count {|elem| elem == "\u25CB" || elem == "\u25CF"}
-    
-    i = 0 
-    while i < clue_count do
-      @computer_guess[i] += 1
-      i += 1
+
+    i = clue_count 
+    while i < 4 do
+      unless @computer_guess[i] == 6
+        @computer_guess[i] += 1
+        i += 1
+      end
     end
     check_correct_position(@computer_guess)
   end
@@ -104,6 +104,11 @@ class Computer
       if arr.eql?(guess)
         @past_guesses += 1
       end
+    end
+    if @past_guesses > 0
+      check_correct_position(@computer_guess.shuffle)
+    else 
+      check_correct_position(guess)
     end
   end
 

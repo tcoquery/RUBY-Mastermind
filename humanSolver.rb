@@ -44,8 +44,8 @@ class Human
       if array[0]==array[1]
         @clues.push("\u25CB")
       else
-        @remaining_numbers = @remaining_numbers.push(user_guess[index])
-        @remaining_code = @remaining_code.push(@colors[index])
+        @remaining_numbers.push(user_guess[index])
+        @remaining_code.push(@colors[index])
       end
     end
   end

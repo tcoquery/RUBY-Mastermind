@@ -1,7 +1,7 @@
 class Human
 
   def initialize
-    @colors = ["1", "2", "3", "4", "5", "6"].shuffle
+    @colors = ["1", "2", "3", "4", "5", "6", "1", "2", "3", "4", "5", "6", "1", "2", "3", "4", "5", "6", "1", "2", "3", "4", "5", "6"].shuffle
     @remaining_code = []
     @remaining_numbers = []
     @clues = []
